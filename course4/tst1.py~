@@ -1,0 +1,28 @@
+import torch
+from torch.nn import Linear
+
+# Set seed for reproducibility
+torch.manual_seed(1)
+
+# Create a linear model with 2 input features and 1 output
+model = Linear(in_features=2, out_features=1)
+
+# List model parameters (weights and bias)
+for param in model.parameters():
+    print(param)
+
+#
+print(model.state_dict())
+
+# create an input vector
+X = torch.tensor([[1.0,3.0]])
+
+# apply
+yhat = model(X)
+print(yhat)
+
+# new run
+X=torch.tensor([[1.0,1.0],[1.0,2.0],[1.0,3.0]])
+yhat = model(X)
+print(yhat)
+

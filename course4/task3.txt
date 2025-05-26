@@ -1,0 +1,59 @@
+# Task 3
+
+import torch
+
+# Set number of epochs
+num_epochs = 1000
+
+# Training loop
+for epoch in range(num_epochs):
+    model.train()  # Training mode
+
+    optimizer.zero_grad()  # Clear previous gradients
+
+    # Forward pass: predict y from X
+    outputs = model(X_train_tensor)
+    loss = criterion(outputs, y_train_tensor)
+
+    # Backward pass and optimization
+    loss.backward()
+    optimizer.step()
+
+    # Print loss every 100 epochs
+    if (epoch + 1) % 100 == 0:
+        print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {loss.item():.4f}")
+
+# Evaluation
+model.eval()
+with torch.no_grad():
+    # Predictions
+    train_preds = model(X_train_tensor)
+    test_preds = model(X_test_tensor)
+
+    # Apply threshold of 0.5 to convert probabilities to binary predictions
+    train_preds_class = (train_preds >= 0.5).float()
+    test_preds_class = (test_preds >= 0.5).float()
+
+    # Accuracy calculation
+    train_accuracy = (train_preds_class == y_train_tensor).float().mean().item()
+    test_accuracy = (test_preds_class == y_test_tensor).float().mean().item()
+
+    print(f"\n✅ Training Accuracy: {train_accuracy * 100:.2f}%")
+    print(f"✅ Test Accuracy    : {test_accuracy * 100:.2f}%")
+
+# results
+#
+# Epoch [100/1000], Loss: 0.7279
+# Epoch [200/1000], Loss: 0.7114
+# Epoch [300/1000], Loss: 0.7011
+# Epoch [400/1000], Loss: 0.6949
+# Epoch [500/1000], Loss: 0.6911
+# Epoch [600/1000], Loss: 0.6889
+# Epoch [700/1000], Loss: 0.6875
+# Epoch [800/1000], Loss: 0.6866
+# Epoch [900/1000], Loss: 0.6861
+# Epoch [1000/1000], Loss: 0.6858
+#
+# Training Accuracy: 54.62%
+# Test Accuracy    : 53.00%
+#

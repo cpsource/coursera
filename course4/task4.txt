@@ -1,0 +1,66 @@
+
+# Task 4
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# Step 1: Redefine the model (fresh weights)
+input_dim = X_train_tensor.shape[1]
+
+model = LogisticRegressionModel(input_dim)
+
+# Step 2: Optimizer with L2 regularization (weight decay)
+optimizer = optim.SGD(model.parameters(), lr=0.01, weight_decay=0.01)
+
+# Step 3: Binary Cross-Entropy Loss
+criterion = nn.BCELoss()
+
+# Step 4: Training loop
+num_epochs = 1000
+for epoch in range(num_epochs):
+    model.train()
+
+    optimizer.zero_grad()
+    outputs = model(X_train_tensor)
+    loss = criterion(outputs, y_train_tensor)
+    loss.backward()
+    optimizer.step()
+
+    if (epoch + 1) % 100 == 0:
+        print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {loss.item():.4f}")
+
+# Step 5: Evaluation
+model.eval()
+with torch.no_grad():
+    train_preds = model(X_train_tensor)
+    test_preds = model(X_test_tensor)
+
+    # Threshold at 0.5 to classify
+    train_preds_class = (train_preds >= 0.5).float()
+    test_preds_class = (test_preds >= 0.5).float()
+
+    # Accuracy
+    train_acc = (train_preds_class == y_train_tensor).float().mean().item()
+    test_acc = (test_preds_class == y_test_tensor).float().mean().item()
+
+print(f"\n✅ Training Accuracy with L2 Regularization: {train_acc * 100:.2f}%")
+print(f"✅ Test Accuracy with L2 Regularization    : {test_acc * 100:.2f}%")
+
+#
+# Results
+#
+
+# Epoch [100/1000], Loss: 0.7281
+# Epoch [200/1000], Loss: 0.7110
+# Epoch [300/1000], Loss: 0.7006
+# Epoch [400/1000], Loss: 0.6945
+# Epoch [500/1000], Loss: 0.6908
+# Epoch [600/1000], Loss: 0.6887
+# Epoch [700/1000], Loss: 0.6874
+# Epoch [800/1000], Loss: 0.6866
+# Epoch [900/1000], Loss: 0.6861
+# Epoch [1000/1000], Loss: 0.6858
+# 
+#  Training Accuracy with L2 Regularization: 54.37%
+#  Test Accuracy with L2 Regularization    : 50.00%
