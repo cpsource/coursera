@@ -1,2 +1,6 @@
 *.csv
 *.pth
+RNN-TR-model.pt
+RNN-TR-model.pt.1
+data/
+
