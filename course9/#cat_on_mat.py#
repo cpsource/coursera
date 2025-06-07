@@ -1,0 +1,75 @@
+import numpy as np
+
+# Step 1 - Word Mappings and Embeddings
+
+# Mapping words to unique IDs
+vocab = {
+    "The": 1,
+    "cat": 2,
+    "sat": 3,
+    "on": 4,
+    "the": 5,
+    "mat.": 6
+}
+
+# Let's assign simple embeddings (3-dim vectors)
+embeddings = {
+    1: np.array([1.0, 0.0, 0.0]),  # "The"
+    2: np.array([0.9, 0.1, 0.0]),  # "cat"
+    3: np.array([0.0, 1.0, 0.0]),  # "sat"
+    4: np.array([0.0, 0.9, 0.1]),  # "on"
+    5: np.array([1.0, 0.0, 0.1]),  # "the"
+    6: np.array([0.1, 0.0, 1.0])   # "mat."
+}
+
+# Convert sentence to list of embeddings
+sentence = ["The", "cat", "sat", "on", "the", "mat."]
+X = np.array([embeddings[vocab[word]] for word in sentence])
+
+# Step 2 - Compute Attention (Scaled Dot-Product)
+
+def softmax(x):
+    e_x = np.exp(x - np.max(x))
+    return e_x / np.sum(e_x)
+
+def compute_attention(X):
+    d_k = X.shape[1]  # dimensionality of embeddings (3)
+    attention_outputs = []
+    attention_weights_all = []
+
+    for i in range(X.shape[0]):
+        query = X[i]
+        scores = np.dot(X, query) / np.sqrt(d_k)  # similarity of query with all keys
+        weights = softmax(scores)
+        attention_output = np.dot(weights, X)  # weighted sum of values
+        attention_outputs.append(attention_output)
+        attention_weights_all.append(weights)
+        print(f"\nWord: {sentence[i]}")
+        print(f"Attention scores (before softmax): {scores.round(3)}")
+        print(f"Attention weights (after softmax): {weights.round(3)}")
+
+    return np.array(attention_outputs), np.array(attention_weights_all)
+
+# STEP 3: Run and Explain
+
+outputs, weights = compute_attention(X)
+
+print("\n--- Final Attention Output Vectors ---")
+for i, out in enumerate(outputs):
+    print(f"{sentence[i]} => {out.round(3)}")
+
+
+# EXPLANATION
+#  Let's say we're at word "cat".
+#
+#  It computes dot products with all other words to get raw attention scores.
+#
+#  These scores are scaled and normalized with softmax to become probabilities.
+#
+#  Then it uses these weights to compute a weighted sum of all word vectors.
+#
+#  So "cat" might pay more attention to "The" or "sat" depending on the vector similarity.
+#
+#  This is what "attention" means:
+#  Each word decides how much it should "look at" every other word when forming its understanding of the context.
+#
