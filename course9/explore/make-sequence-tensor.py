@@ -33,6 +33,9 @@ print("Embedding weights as numpy:\n", embedding_layer.weight.detach().numpy())
 #print(f"embedding_layer = {embedding_layer}")
 
 # Convert tokens to embeddings
+#
+#   by this we mean we lookup each word weight [ word ] and add that vector to our output
+#
 print("# Convert tokens to embeddings")
 print(f"token_tensor = {token_tensor}")
 sequence_tensor = embedding_layer(token_tensor)

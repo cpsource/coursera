@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as F
+import sys
 
 # Set random seed for reproducibility
 torch.manual_seed(0)
@@ -35,6 +36,27 @@ Q = reshape_heads(Q)
 K = reshape_heads(K)
 V = reshape_heads(V)
 print("Q reshaped for multi-head:\n", Q, "\n")
+# Suppose:
+# 
+# batch_size = 1
+# 
+# seq_len = 4
+# 
+# embed_dim = 8
+# 
+# num_heads = 2
+# → then head_dim = embed_dim // num_heads = 4
+# 
+
+# Q.shape = (1, 2, 4, 4)  # [batch, heads, tokens, head_dim]
+
+# What this means:
+# We now have 2 attention heads.
+# 
+# Each head gets a 4-dimensional view of each token (instead of all 8 at once).
+# 
+# Each head operates independently from the others.
+# 
 
 # Step 4: Scaled dot-product attention scores
 scores = torch.matmul(Q, K.transpose(-2, -1)) / (head_dim ** 0.5)
@@ -44,11 +66,15 @@ print("Raw Attention Scores:\n", scores, "\n")
 mask = torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()
 print("Causal Mask:\n", mask, "\n")
 scores = scores.masked_fill(mask, float('-inf'))
-print("Masked Scores:\n", scores, "\n")
+print("Masked Attention Scores:\n", scores, "\n")
 
 # Step 6: Softmax normalization
 attn_weights = F.softmax(scores, dim=-1)
-print("Attention Weights:\n", attn_weights, "\n")
+print("Attention Weights from softmax: torch.nn.functional.(Masked Attention Scores)\n", attn_weights, "\n")
+
+# attention_output = 0.6 * V("The") + 0.3 * V("cat") + 0.1 * V("sat")
+
+#sys.exit(0)
 
 # Step 7: Weighted sum of values
 attn_output = torch.matmul(attn_weights, V)
