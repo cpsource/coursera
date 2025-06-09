@@ -1,0 +1,11 @@
+situations/
+├── transportation/
+│   ├── road_crossing.json
+│   ├── driving_car.json
+│   └── taking_bus.json
+├── social/
+│   ├── job_interview.json
+│   └── ordering_food.json
+└── emergency/
+    └── fire_evacuation.json
+

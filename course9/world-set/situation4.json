@@ -1,0 +1,112 @@
+{
+  "road_crossing": {
+    "desc": "Cross road safely",
+    "pre": ["pos==road_edge", "goal==across"],
+    "cond": {
+      "safe_to_cross": {
+        "logic": "AND",
+        "rules": [
+          {"light==green": 3},
+          {"min_vehicle_dist>30": 5},
+          {"at_crosswalk": 2},
+          {
+            "logic": "OR", 
+            "rules": [
+              {"visibility==clear": 2},
+              {"time_of_day==day": 1}
+            ]
+          }
+        ]
+      },
+      "emergency_crossing": {
+        "logic": "AND",
+        "rules": [
+          {"emergency==true": 10},
+          {"min_vehicle_dist>50": 8}
+        ]
+      }
+    },
+    "act": {
+      "wait": {"cost": 0.1, "dur": 2},
+      "cross": {"cost": 1.0, "dur": 5, "req": "safe_to_cross"},  
+      "run_cross": {"cost": 2.0, "dur": 3, "req": "emergency_crossing"},
+      "look": {"cost": 0.05, "dur": 1, "effect": "visibility=clear"}
+    },
+    "win": ["pos==across"],
+    "lose": ["collision==true", "time_expired==true"]
+  },
+
+  "job_interview": {
+    "desc": "Navigate job interview successfully", 
+    "pre": ["at_office", "interview_scheduled"],
+    "cond": {
+      "confident_response": {
+        "logic": "AND",
+        "rules": [
+          {"question_difficulty<7": 3},
+          {
+            "logic": "OR",
+            "rules": [
+              {"preparation_level>8": 4},
+              {"experience_years>5": 3}
+            ]
+          },
+          {"stress_level<5": 2}
+        ]
+      },
+      "deflect_hard_question": {
+        "logic": "AND", 
+        "rules": [
+          {"question_difficulty>8": 1},
+          {"time_remaining>10": 2}
+        ]
+      }
+    },
+    "act": {
+      "answer_directly": {"cost": 0.5, "req": "confident_response"},
+      "ask_clarification": {"cost": 0.3, "req": "deflect_hard_question"}, 
+      "give_example": {"cost": 0.7, "req": "confident_response"},
+      "admit_unknown": {"cost": 1.0}
+    },
+    "win": ["interview_score>7"],
+    "lose": ["interview_score<3", "walked_out==true"]
+  },
+
+  "grocery_shopping": {
+    "desc": "Efficiently buy groceries",
+    "pre": ["at_store", "has_list"],
+    "cond": {
+      "buy_item": {
+        "logic": "AND",
+        "rules": [
+          {"item_on_list": 5},
+          {
+            "logic": "OR",
+            "rules": [
+              {"price<budget_per_item": 3},
+              {"necessity_level>8": 4}
+            ]
+          },
+          {"item_available": 2}
+        ]
+      },
+      "substitute_item": {
+        "logic": "AND",
+        "rules": [
+          {"original_unavailable": 1},
+          {"substitute_similarity>7": 2},
+          {"price_difference<20%": 1}
+        ]
+      }
+    },
+    "act": {
+      "add_to_cart": {"cost": 0.1, "req": "buy_item"},
+      "find_substitute": {"cost": 0.5, "req": "substitute_item"},
+      "skip_item": {"cost": 0.2},
+      "ask_employee": {"cost": 0.3, "dur": 2}
+    },
+    "win": ["list_completion>80%", "within_budget"],
+    "lose": ["budget_exceeded>50%", "time_expired"]
+  }
+}
+
