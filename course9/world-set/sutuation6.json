@@ -1,0 +1,323 @@
+{
+  "hierarchical_playbooks": {
+    "fundamental_playbooks": {
+      "assess_risk": {
+        "desc": "Basic risk assessment - callable by any situation",
+        "level": "fundamental",
+        "inputs": ["threat_source", "potential_impact", "likelihood"],
+        "outputs": ["risk_level", "recommended_caution", "mitigation_priority"],
+        "pre": ["threat_identified"],
+        "cond": {
+          "high_risk": {
+            "logic": "OR",
+            "rules": [
+              {"potential_impact>7": 5},
+              {"likelihood>8": 4},
+              {"threat_immediacy<5": 3}
+            ]
+          },
+          "manageable_risk": {
+            "logic": "AND", 
+            "rules": [
+              {"potential_impact<6": 2},
+              {"likelihood<7": 2},
+              {"mitigation_available": 3}
+            ]
+          }
+        },
+        "act": {
+          "assess_severe": {"cost": 0.5, "req": "high_risk", "output": {"risk_level": "high", "recommended_caution": "extreme"}},
+          "assess_moderate": {"cost": 0.3, "req": "manageable_risk", "output": {"risk_level": "moderate", "recommended_caution": "normal"}},
+          "assess_low": {"cost": 0.1, "output": {"risk_level": "low", "recommended_caution": "minimal"}}
+        },
+        "win": ["risk_level_determined"],
+        "lose": ["assessment_failed"]
+      },
+
+      "gather_information": {
+        "desc": "Information collection - reusable across domains",
+        "level": "fundamental", 
+        "inputs": ["information_type", "urgency_level", "available_sources"],
+        "outputs": ["information_quality", "confidence_level", "time_spent"],
+        "pre": ["information_needed"],
+        "cond": {
+          "quick_lookup": {
+            "logic": "AND",
+            "rules": [
+              {"urgency_level>7": 3},
+              {"simple_information": 2}
+            ]
+          },
+          "deep_research": {
+            "logic": "OR",
+            "rules": [
+              {"information_complexity>6": 4},
+              {"high_stakes": 5}
+            ]
+          }
+        },
+        "act": {
+          "quick_search": {"cost": 0.2, "dur": 1, "req": "quick_lookup", "output": {"information_quality": "basic", "confidence_level": 6}},
+          "thorough_research": {"cost": 1.0, "dur": 5, "req": "deep_research", "output": {"information_quality": "comprehensive", "confidence_level": 9}},
+          "ask_expert": {"cost": 0.5, "dur": 2, "output": {"information_quality": "expert", "confidence_level": 8}}
+        },
+        "win": ["information_obtained"],
+        "lose": ["information_unavailable"]
+      },
+
+      "make_decision": {
+        "desc": "Decision making framework - universal utility",
+        "level": "fundamental",
+        "inputs": ["options_available", "decision_criteria", "time_pressure"],
+        "outputs": ["chosen_option", "confidence_level", "backup_plan"],
+        "pre": ["decision_required", "options_identified"],
+        "cond": {
+          "clear_best_option": {
+            "logic": "AND",
+            "rules": [
+              {"option_score_gap>3": 4},
+              {"criteria_certainty>7": 3}
+            ]
+          },
+          "difficult_choice": {
+            "logic": "OR",
+            "rules": [
+              {"option_score_gap<2": 3},
+              {"conflicting_criteria": 4}
+            ]
+          }
+        },
+        "act": {
+          "choose_obvious": {"cost": 0.1, "req": "clear_best_option", "output": {"confidence_level": 9}},
+          "deliberate_carefully": {"cost": 0.8, "dur": 3, "req": "difficult_choice", "output": {"confidence_level": 7, "backup_plan": "generated"}},
+          "seek_advice": {"cost": 0.5, "dur": 2, "output": {"confidence_level": 6}}
+        },
+        "win": ["decision_made"],
+        "lose": ["decision_paralysis"]
+      }
+    },
+
+    "composite_playbooks": {
+      "job_interview": {
+        "desc": "High-level interview management using sub-playbooks",
+        "level": "composite",
+        "dependencies": ["gather_information", "assess_risk", "make_decision"],
+        "pre": ["interview_scheduled", "at_interview_location"],
+        "workflow": [
+          {
+            "step": "pre_interview_research",
+            "call_playbook": "gather_information",
+            "inputs": {
+              "information_type": "company_and_role",
+              "urgency_level": 8,
+              "available_sources": ["website", "linkedin", "contacts"]
+            },
+            "store_results_as": "research_data"
+          },
+          {
+            "step": "assess_interview_difficulty", 
+            "call_playbook": "assess_risk",
+            "inputs": {
+              "threat_source": "difficult_questions",
+              "potential_impact": "@research_data.role_complexity",
+              "likelihood": "@research_data.interview_style_formal"
+            },
+            "store_results_as": "difficulty_assessment"
+          },
+          {
+            "step": "choose_strategy",
+            "call_playbook": "make_decision", 
+            "inputs": {
+              "options_available": ["confident_approach", "humble_approach", "technical_focus"],
+              "decision_criteria": ["@difficulty_assessment.risk_level", "@research_data.company_culture"],
+              "time_pressure": 5
+            },
+            "store_results_as": "interview_strategy"
+          }
+        ],
+        "cond": {
+          "ready_for_interview": {
+            "logic": "AND",
+            "rules": [
+              {"@research_data.information_quality>=basic": 3},
+              {"@interview_strategy.chosen_option!=null": 4},
+              {"@difficulty_assessment.risk_level<=high": 2}
+            ]
+          },
+          "needs_more_prep": {
+            "logic": "OR",
+            "rules": [
+              {"@research_data.confidence_level<6": 3},
+              {"@difficulty_assessment.risk_level==high": 4}
+            ]
+          }
+        },
+        "act": {
+          "proceed_with_interview": {"cost": 2.0, "req": "ready_for_interview"},
+          "request_reschedule": {"cost": 1.5, "req": "needs_more_prep"},
+          "wing_it": {"cost": 3.0}
+        },
+        "win": ["interview_completed", "@interview_strategy.confidence_level>6"],
+        "lose": ["interview_failed", "@difficulty_assessment.risk_level==high"]
+      },
+
+      "startup_business_plan": {
+        "desc": "Complex business planning using multiple sub-playbooks",
+        "level": "composite",
+        "dependencies": ["gather_information", "assess_risk", "make_decision"],
+        "pre": ["business_idea_defined", "has_resources_for_planning"],
+        "workflow": [
+          {
+            "step": "market_research",
+            "call_playbook": "gather_information",
+            "inputs": {
+              "information_type": "market_analysis",
+              "urgency_level": 6,
+              "available_sources": ["industry_reports", "competitor_analysis", "surveys"]
+            },
+            "store_results_as": "market_data"
+          },
+          {
+            "step": "competitive_analysis", 
+            "call_playbook": "gather_information",
+            "inputs": {
+              "information_type": "competitor_landscape",
+              "urgency_level": 7,
+              "available_sources": ["competitor_websites", "funding_databases", "product_reviews"]
+            },
+            "store_results_as": "competitor_data"
+          },
+          {
+            "step": "assess_market_risk",
+            "call_playbook": "assess_risk",
+            "inputs": {
+              "threat_source": "market_competition",
+              "potential_impact": "@competitor_data.competitor_strength",
+              "likelihood": "@market_data.market_saturation"
+            },
+            "store_results_as": "market_risk"
+          },
+          {
+            "step": "choose_business_model",
+            "call_playbook": "make_decision",
+            "inputs": {
+              "options_available": ["subscription", "freemium", "enterprise", "marketplace"],
+              "decision_criteria": ["@market_data.customer_preferences", "@market_risk.risk_level"],
+              "time_pressure": 4
+            },
+            "store_results_as": "business_model"
+          },
+          {
+            "step": "assess_execution_risk",
+            "call_playbook": "assess_risk", 
+            "inputs": {
+              "threat_source": "execution_challenges",
+              "potential_impact": "@business_model.complexity",
+              "likelihood": "team_experience_level"
+            },
+            "store_results_as": "execution_risk"
+          }
+        ],
+        "cond": {
+          "viable_plan": {
+            "logic": "AND",
+            "rules": [
+              {"@market_risk.risk_level!=high": 4},
+              {"@execution_risk.risk_level<=moderate": 3},
+              {"@business_model.confidence_level>7": 5}
+            ]
+          },
+          "needs_pivot": {
+            "logic": "OR",
+            "rules": [
+              {"@market_risk.risk_level==high": 5},
+              {"@competitor_data.market_saturation>8": 4}
+            ]
+          }
+        },
+        "act": {
+          "proceed_with_plan": {"cost": 5.0, "req": "viable_plan"},
+          "pivot_strategy": {"cost": 3.0, "req": "needs_pivot"},
+          "abandon_idea": {"cost": 0.5}
+        },
+        "win": ["business_plan_complete", "@business_model.confidence_level>8"],
+        "lose": ["plan_not_viable", "@execution_risk.risk_level==high"]
+      }
+    },
+
+    "orchestrator_playbooks": {
+      "career_advancement": {
+        "desc": "Long-term career strategy using multiple composite playbooks",
+        "level": "orchestrator",
+        "dependencies": ["job_interview", "startup_business_plan"],
+        "pre": ["career_goals_defined", "current_position_assessed"],
+        "workflow": [
+          {
+            "step": "evaluate_corporate_path",
+            "call_playbook": "job_interview",
+            "inputs": {
+              "interview_scheduled": true,
+              "at_interview_location": "virtual"
+            },
+            "condition": "considering_corporate_role",
+            "store_results_as": "corporate_assessment"
+          },
+          {
+            "step": "evaluate_entrepreneur_path", 
+            "call_playbook": "startup_business_plan",
+            "inputs": {
+              "business_idea_defined": true,
+              "has_resources_for_planning": true
+            },
+            "condition": "considering_startup",
+            "store_results_as": "startup_assessment"
+          },
+          {
+            "step": "choose_career_path",
+            "call_playbook": "make_decision",
+            "inputs": {
+              "options_available": ["corporate_advancement", "start_business", "freelance", "hybrid"],
+              "decision_criteria": ["@corporate_assessment.success_probability", "@startup_assessment.viability"],
+              "time_pressure": 3
+            },
+            "store_results_as": "career_decision"
+          }
+        ],
+        "cond": {
+          "clear_path_forward": {
+            "logic": "AND",
+            "rules": [
+              {"@career_decision.confidence_level>7": 4},
+              {"@career_decision.chosen_option!=null": 5}
+            ]
+          }
+        },
+        "act": {
+          "execute_career_plan": {"cost": 10.0, "req": "clear_path_forward"},
+          "continue_research": {"cost": 2.0}
+        },
+        "win": ["career_path_selected", "@career_decision.confidence_level>8"],
+        "lose": ["decision_paralysis"]
+      }
+    }
+  },
+
+  "execution_framework": {
+    "call_stack": {
+      "desc": "Manages nested playbook calls like function call stack",
+      "max_depth": 10,
+      "timeout_per_level": 300
+    },
+    "variable_passing": {
+      "input_binding": "Parameters passed to called playbook",
+      "output_capturing": "Results stored with @ prefix for reference", 
+      "scope_rules": "Child playbooks can access parent variables with @parent notation"
+    },
+    "error_handling": {
+      "playbook_not_found": "fallback_to_manual_decision",
+      "infinite_recursion": "break_after_max_depth",
+      "timeout": "return_partial_results"
+    }
+  }
+}
+

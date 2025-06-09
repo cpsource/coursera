@@ -1,0 +1,135 @@
+{
+  "playbook_creation": {
+    "desc": "Create effective playbooks for any real-world situation",
+    "pre": ["new_situation_identified", "has_ai_access"],
+    "cond": {
+      "ready_for_analysis": {
+        "logic": "AND",
+        "rules": [
+          {"situation_complexity<8": 2},
+          {"examples_available>0": 3},
+          {"domain_knowledge>5": 2}
+        ]
+      },
+      "needs_research": {
+        "logic": "OR", 
+        "rules": [
+          {"situation_complexity>7": 4},
+          {"unfamiliar_domain": 3},
+          {"safety_critical": 5}
+        ]
+      },
+      "ready_to_build": {
+        "logic": "AND",
+        "rules": [
+          {"research_complete": 4},
+          {"examples_collected>2": 3},
+          {"edge_cases_identified": 2}
+        ]
+      },
+      "needs_validation": {
+        "logic": "OR",
+        "rules": [
+          {"first_draft_complete": 2},
+          {"complex_logic_used": 3},
+          {"safety_implications": 5}
+        ]
+      }
+    },
+    "act": {
+      "research_situation": {
+        "cost": 2.0,
+        "dur": 10,
+        "req": "needs_research",
+        "ai_prompt": "Analyze the situation '{situation_name}' for an AI agent. What are the key decisions, conditions to check, possible actions, success/failure states, and common edge cases? Focus on observable conditions and measurable outcomes."
+      },
+      "gather_examples": {
+        "cost": 1.5,
+        "dur": 5,
+        "req": "ready_for_analysis", 
+        "ai_prompt": "Provide 3-5 concrete examples of '{situation_name}' scenarios, including: different difficulty levels, common variations, typical decision points, and what success/failure looks like in each case."
+      },
+      "identify_conditions": {
+        "cost": 1.0,
+        "dur": 3,
+        "req": "ready_for_analysis",
+        "ai_prompt": "For the situation '{situation_name}', list all the observable conditions an AI agent should check. Format as: sensor conditions (what can be directly observed), state conditions (internal knowledge/memory), temporal conditions (time-based), and contextual conditions (environmental factors)."
+      },
+      "define_actions": {
+        "cost": 1.0, 
+        "dur": 3,
+        "req": "ready_for_analysis",
+        "ai_prompt": "What actions can an AI agent take in '{situation_name}'? Categorize as: physical actions (real-world movement), cognitive actions (thinking/planning), communicative actions (interaction with others), observational actions (gathering more info). Include estimated costs and durations."
+      },
+      "map_logic_flows": {
+        "cost": 2.5,
+        "dur": 8,
+        "req": "ready_to_build",
+        "ai_prompt": "Create decision logic for '{situation_name}'. Show: when to choose each action, how conditions combine (AND/OR logic), condition weights/importance, and how actions change the world state. Focus on nested decision trees."
+      },
+      "identify_edge_cases": {
+        "cost": 1.5,
+        "dur": 4,
+        "req": "ready_to_build",
+        "ai_prompt": "What are the edge cases, failure modes, and unexpected situations that could occur in '{situation_name}'? Include: rare but important scenarios, safety considerations, ethical dilemmas, and error recovery strategies."
+      },
+      "build_json_structure": {
+        "cost": 3.0,
+        "dur": 15,
+        "req": "ready_to_build",
+        "ai_prompt": "Convert the '{situation_name}' analysis into our compact JSON playbook format. Use: 'pre' for entry conditions, 'cond' for decision logic with AND/OR nesting, 'act' for actions with costs/requirements, 'win'/'lose' for outcomes. Make expressions like 'field==value' and 'field>number'."
+      },
+      "validate_playbook": {
+        "cost": 2.0,
+        "dur": 6,
+        "req": "needs_validation",
+        "ai_prompt": "Review this '{situation_name}' playbook JSON for: logical consistency, missing conditions, unrealistic costs/durations, edge case coverage, and potential infinite loops. Suggest specific improvements."
+      },
+      "test_scenarios": {
+        "cost": 1.5,
+        "dur": 5,
+        "req": "needs_validation", 
+        "ai_prompt": "Create 5 test scenarios for '{situation_name}' playbook: 2 normal cases, 2 edge cases, 1 failure case. For each, provide the world_state JSON and expected best action. Use realistic values."
+      },
+      "refine_weights": {
+        "cost": 1.0,
+        "dur": 3,
+        "req": "needs_validation",
+        "ai_prompt": "Analyze the condition weights in '{situation_name}' playbook. Are they realistic? Should safety conditions have higher weights? Are the action costs reasonable compared to their complexity and risk?"
+      }
+    },
+    "win": ["playbook_validated", "test_scenarios_pass", "expert_approved"],
+    "lose": ["infinite_loops_detected", "safety_violations", "logical_contradictions"],
+    
+    "meta": {
+      "ai_prompt_templates": {
+        "situation_analysis": "I'm building an AI decision-making system. Analyze '{situation}' as if you're designing behavior for an autonomous agent. Focus on: observable inputs, decision points, possible actions, success metrics, and failure modes. Think step-by-step.",
+        
+        "json_conversion": "Convert this behavioral analysis into our JSON playbook format. Rules: Use 'pre' for prerequisites, 'cond' for decision logic (with AND/OR nesting), 'act' for actions (with cost, duration, requirements), 'win'/'lose' for outcomes. Make conditions like 'field==value' or 'field>threshold'.",
+        
+        "validation_check": "Review this AI behavior playbook for: logical errors, missing edge cases, unrealistic assumptions, safety issues, and optimization opportunities. Be specific about problems and solutions.",
+        
+        "test_generation": "Create comprehensive test cases for this AI playbook. Include: normal scenarios, edge cases, failure modes. For each test, provide world_state JSON input and expected behavior output."
+      },
+      
+      "quality_checklist": [
+        "All conditions are observable/measurable",
+        "Actions have realistic costs and durations", 
+        "Success/failure states are clearly defined",
+        "Edge cases and safety scenarios covered",
+        "No logical contradictions or infinite loops",
+        "Weights reflect real-world importance",
+        "JSON syntax is valid and compact"
+      ],
+      
+      "common_patterns": {
+        "safety_first": "Safety conditions should have highest weights (8-10)",
+        "observation_before_action": "Include 'look/assess' actions with low cost",
+        "graceful_degradation": "Always have fallback actions when ideal conditions aren't met",
+        "time_pressure": "Consider temporal conditions like deadlines or urgency",
+        "resource_management": "Factor in energy, money, time costs for actions"
+      }
+    }
+  }
+}
+

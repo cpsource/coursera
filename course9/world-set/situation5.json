@@ -1,0 +1,163 @@
+{
+  "domain_templates": {
+    "social": {
+      "desc": "Template for interpersonal and communication situations",
+      "focus_areas": ["emotional_intelligence", "cultural_context", "relationship_dynamics"],
+      "common_conditions": {
+        "emotional_state": ["comfortable", "nervous", "confident", "stressed"],
+        "social_context": ["formal", "casual", "intimate", "professional"],
+        "relationship_type": ["stranger", "acquaintance", "friend", "family", "authority"],
+        "cultural_factors": ["same_culture", "different_culture", "language_barrier"],
+        "group_dynamics": ["one_on_one", "small_group", "large_group", "audience"]
+      },
+      "typical_actions": {
+        "communicative": ["speak", "listen", "ask_question", "share_story", "give_compliment"],
+        "non_verbal": ["make_eye_contact", "smile", "nod", "maintain_distance", "gesture"],
+        "social": ["introduce_self", "change_topic", "express_empathy", "set_boundary", "apologize"]
+      },
+      "ai_prompts": {
+        "research": "Analyze '{situation_name}' as a social interaction. Focus on: emotional dynamics, cultural considerations, power structures, communication patterns, relationship goals, and potential misunderstandings. Consider both verbal and non-verbal elements.",
+        "conditions": "For '{situation_name}', identify social conditions like: emotional states of participants, formality level, cultural context, group size, relationship dynamics, time pressure, and environmental factors (noise, privacy, etc.).",
+        "actions": "What social actions can an AI take in '{situation_name}'? Include: verbal responses (questions, statements, stories), non-verbal behaviors (tone, pace, body language), listening techniques, and relationship management moves.",
+        "edge_cases": "What social edge cases could occur in '{situation_name}'? Consider: cultural misunderstandings, emotional outbursts, power imbalances, language barriers, conflicting goals, and awkward silences."
+      }
+    },
+
+    "technical": {
+      "desc": "Template for problem-solving and analytical situations", 
+      "focus_areas": ["systematic_analysis", "resource_optimization", "error_handling"],
+      "common_conditions": {
+        "complexity_level": ["simple", "moderate", "complex", "expert_only"],
+        "resource_availability": ["abundant", "limited", "scarce", "unavailable"],
+        "time_constraints": ["no_rush", "moderate_deadline", "urgent", "critical"],
+        "error_tolerance": ["high", "medium", "low", "zero_tolerance"],
+        "expertise_required": ["beginner", "intermediate", "advanced", "specialist"]
+      },
+      "typical_actions": {
+        "analytical": ["analyze_problem", "break_down_steps", "identify_patterns", "test_hypothesis"],
+        "systematic": ["follow_procedure", "check_prerequisites", "validate_inputs", "verify_outputs"],
+        "optimization": ["compare_options", "calculate_efficiency", "minimize_resources", "maximize_results"]
+      },
+      "ai_prompts": {
+        "research": "Analyze '{situation_name}' as a technical problem-solving scenario. Focus on: required inputs, systematic processes, decision trees, optimization criteria, error handling, and measurable outcomes.",
+        "conditions": "For '{situation_name}', identify technical conditions like: system states, resource levels, performance metrics, error indicators, completion criteria, and environmental constraints.",
+        "actions": "What technical actions can an AI take in '{situation_name}'? Include: analysis steps, testing procedures, optimization moves, error recovery actions, and verification processes.",
+        "edge_cases": "What technical edge cases could occur in '{situation_name}'? Consider: resource exhaustion, unexpected inputs, system failures, performance bottlenecks, and cascade effects."
+      }
+    },
+
+    "safety": {
+      "desc": "Template for risk assessment and emergency situations",
+      "focus_areas": ["threat_assessment", "risk_mitigation", "emergency_response"],
+      "common_conditions": {
+        "threat_level": ["none", "low", "moderate", "high", "critical"],
+        "response_time": ["plenty", "minutes", "seconds", "immediate"],
+        "resources_available": ["full_resources", "limited_tools", "minimal_help", "solo"],
+        "environmental_factors": ["safe", "hazardous", "unstable", "life_threatening"],
+        "stakeholder_safety": ["self_only", "others_present", "large_group", "public"]
+      },
+      "typical_actions": {
+        "assessment": ["evaluate_threat", "check_exits", "identify_resources", "assess_injuries"],
+        "prevention": ["remove_hazard", "create_barrier", "warn_others", "establish_safety_zone"],
+        "response": ["evacuate", "call_emergency", "provide_aid", "contain_situation"],
+        "recovery": ["ensure_safety", "document_incident", "follow_up_care", "prevent_recurrence"]
+      },
+      "ai_prompts": {
+        "research": "Analyze '{situation_name}' as a safety-critical scenario. Focus on: potential hazards, risk factors, safety protocols, emergency procedures, stakeholder protection, and regulatory requirements.",
+        "conditions": "For '{situation_name}', identify safety conditions like: threat indicators, environmental hazards, time pressures, available safety equipment, number of people at risk, and escape routes.",
+        "actions": "What safety actions can an AI take in '{situation_name}'? Prioritize: immediate threat response, protective measures, emergency communications, evacuation procedures, and harm reduction strategies.",
+        "edge_cases": "What safety edge cases could occur in '{situation_name}'? Consider: equipment failures, multiple simultaneous threats, communication breakdowns, panic responses, and resource conflicts."
+      }
+    },
+
+    "business": {
+      "desc": "Template for commercial and organizational situations",
+      "focus_areas": ["stakeholder_management", "value_optimization", "strategic_thinking"],
+      "common_conditions": {
+        "stakeholder_interests": ["aligned", "competing", "conflicting", "unknown"],
+        "market_conditions": ["favorable", "neutral", "challenging", "crisis"],
+        "resource_constraints": ["well_funded", "budget_limited", "cost_cutting", "survival_mode"],
+        "competitive_pressure": ["monopoly", "light", "intense", "cutthroat"],
+        "regulatory_environment": ["permissive", "standard", "strict", "changing"]
+      },
+      "typical_actions": {
+        "strategic": ["analyze_market", "assess_competition", "identify_opportunities", "plan_roadmap"],
+        "operational": ["optimize_process", "allocate_resources", "manage_timeline", "track_metrics"],
+        "interpersonal": ["negotiate_terms", "build_relationships", "manage_expectations", "resolve_conflicts"]
+      },
+      "ai_prompts": {
+        "research": "Analyze '{situation_name}' as a business scenario. Focus on: stakeholder interests, value creation, competitive dynamics, resource optimization, risk/reward tradeoffs, and success metrics.",
+        "conditions": "For '{situation_name}', identify business conditions like: market state, financial constraints, competitive threats, stakeholder alignment, regulatory factors, and performance indicators.",
+        "actions": "What business actions can an AI take in '{situation_name}'? Include: strategic moves, operational optimizations, relationship management, risk mitigation, and value creation activities.",
+        "edge_cases": "What business edge cases could occur in '{situation_name}'? Consider: market disruptions, stakeholder conflicts, resource shortages, regulatory changes, and competitive responses."
+      }
+    },
+
+    "learning": {
+      "desc": "Template for educational and skill development situations",
+      "focus_areas": ["knowledge_acquisition", "skill_building", "performance_improvement"],
+      "common_conditions": {
+        "learning_stage": ["beginner", "intermediate", "advanced", "expert"],
+        "motivation_level": ["high", "moderate", "low", "resistant"],
+        "learning_style": ["visual", "auditory", "kinesthetic", "reading"],
+        "time_availability": ["unlimited", "scheduled", "sporadic", "minimal"],
+        "support_available": ["mentor", "peer_group", "self_directed", "isolated"]
+      },
+      "typical_actions": {
+        "acquisition": ["read_material", "watch_demo", "listen_explanation", "practice_skill"],
+        "processing": ["take_notes", "ask_questions", "make_connections", "test_understanding"],
+        "application": ["try_exercise", "solve_problem", "create_project", "teach_others"]
+      },
+      "ai_prompts": {
+        "research": "Analyze '{situation_name}' as a learning scenario. Focus on: learning objectives, skill progression, knowledge prerequisites, practice opportunities, feedback mechanisms, and mastery indicators.",
+        "conditions": "For '{situation_name}', identify learning conditions like: current skill level, motivation state, available resources, time constraints, learning environment, and support systems.",
+        "actions": "What learning actions can an AI take in '{situation_name}'? Include: information gathering, skill practice, knowledge testing, feedback seeking, and progress tracking activities.",
+        "edge_cases": "What learning edge cases could occur in '{situation_name}'? Consider: knowledge gaps, skill plateaus, motivation loss, resource limitations, and learning disabilities."
+      }
+    },
+
+    "creative": {
+      "desc": "Template for artistic and innovative situations",
+      "focus_areas": ["idea_generation", "creative_expression", "iterative_refinement"],
+      "common_conditions": {
+        "creative_phase": ["inspiration", "ideation", "development", "refinement", "completion"],
+        "constraints": ["unlimited", "budget_limited", "time_limited", "resource_constrained"],
+        "audience": ["self", "peers", "critics", "public", "clients"],
+        "originality_requirement": ["derivative", "influenced", "original", "groundbreaking"],
+        "collaboration_mode": ["solo", "partnership", "team", "community"]
+      },
+      "typical_actions": {
+        "generative": ["brainstorm_ideas", "sketch_concepts", "experiment_techniques", "combine_elements"],
+        "evaluative": ["critique_work", "seek_feedback", "compare_options", "test_audience"],
+        "iterative": ["refine_concept", "polish_execution", "add_details", "simplify_design"]
+      },
+      "ai_prompts": {
+        "research": "Analyze '{situation_name}' as a creative scenario. Focus on: creative goals, artistic constraints, audience expectations, inspiration sources, technical requirements, and evaluation criteria.",
+        "conditions": "For '{situation_name}', identify creative conditions like: inspiration level, resource availability, time pressure, audience feedback, creative blocks, and collaborative dynamics.",
+        "actions": "What creative actions can an AI take in '{situation_name}'? Include: idea generation, concept development, skill application, feedback integration, and iterative improvement activities.",
+        "edge_cases": "What creative edge cases could occur in '{situation_name}'? Consider: creative blocks, resource limitations, conflicting feedback, technical failures, and artistic disagreements."
+      }
+    }
+  },
+
+  "domain_selection_rules": {
+    "social_keywords": ["interview", "date", "meeting", "conversation", "networking", "presentation", "negotiation", "conflict", "team", "family"],
+    "technical_keywords": ["debug", "program", "system", "analyze", "optimize", "configure", "troubleshoot", "calculate", "design", "engineer"],
+    "safety_keywords": ["emergency", "evacuation", "medical", "fire", "accident", "hazard", "risk", "security", "threat", "crisis"],
+    "business_keywords": ["sales", "marketing", "strategy", "profit", "budget", "customer", "competition", "market", "investment", "contract"],
+    "learning_keywords": ["study", "learn", "practice", "skill", "education", "training", "course", "exam", "homework", "research"],
+    "creative_keywords": ["design", "art", "write", "create", "compose", "paint", "build", "craft", "innovate", "invent"]
+  },
+
+  "hybrid_situations": {
+    "desc": "Some situations span multiple domains",
+    "examples": {
+      "technical_presentation": ["technical", "social"],
+      "safety_training": ["safety", "learning"],
+      "creative_business_pitch": ["creative", "business", "social"],
+      "team_problem_solving": ["technical", "social", "business"]
+    },
+    "combination_strategy": "merge_templates_with_weights"
+  }
+}
+
