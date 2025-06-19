@@ -1,0 +1,42 @@
+2025-05-12
+Pro+ Subscriptions give 600 CCUs now: https://x.com/GoogleColab/status/1913312272967209357
+
+Launched Colab's fastest deep learning accelerator: v6e-1 (Trillium) TPUs!! 2x the high bandwidth memory as v5e-1 (32GB) and a whopping peak rating of 918 BF16 TFLOPS (nearly 3x A100)!️ Try them out with JAX & Flax in our example notebook
+
+Enabled UTF-8 mode by default for Python
+
+Added CUDA.jl and Pluto.jl for Julia
+
+Enabled OpenCL for LightGBM
+
+Python package upgrades
+
+accelerate 1.5.2 -> 1.6.0
+bigframes 1.42.0 -> 2.3.0
+bokeh 3.6.3 -> 3.7.2
+cudf-cu12 24.12.0 -> 25.2.1
+google-genai 1.9.0 -> 1.14.0
+highspy 1.9.0 -> 1.10.0
+holidays 0.69 -> 0.72
+huggingface-hub 0.30.1 -> 0.31.1
+lxml 5.3.1 -> 5.4.0
+nx_cugraph_cu12 24.12.0 -> 25.2.1
+openai 1.70.0 -> 1.78.0
+peft 0.14.0 -> 0.15.2
+polars 1.14.0 -> 1.21.0
+pyomo 6.8.2 -> 6.9.2
+scipy 1.14.1 -> 1.15.3
+sentence-transformers 3.4.1 -> 4.1.0
+transformers 4.50.3 -> 4.51.3
+urllib3 2.3.0 -> 2.4.0
+xarray 2025.1.2 -> 2025.3.1
+Python package inclusions
+
+dataproc-spark-connect 0.7.3
+libpysal 4.13.0
+lightgbm
+stumpy 1.13.0
+torchao 0.10.0
+torchtune 0.6.1
+tsfresh 0.21.0
+
